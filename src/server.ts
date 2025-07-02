@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { bookRoute } from "./modules/book/book.routes";
 dotenv.config();
 
 
@@ -10,6 +11,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+
+app.use("/book", bookRoute)
 
 app.get("/", (req, res) => {
   res.status(200).send("pong");
