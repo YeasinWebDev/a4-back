@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use("/book", bookRoute)
+app.use(bookRoute)
 
 app.get("/", (req, res) => {
   res.status(200).send("pong");

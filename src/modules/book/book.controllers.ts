@@ -24,13 +24,13 @@ export const AllBooks = async (req: Request, res: Response) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 6;
-    const totalPage = await Book.countDocuments() / limit;
+    const totalPage = (await Book.countDocuments()) / limit;
     const skip = (page - 1) * limit;
-    const books = await Book.find().skip(skip).limit(limit);
+    const books = await Book.find().skip(skip).limit(limit).sort({ createdAt: -1 });
     res.status(200).json({
       success: true,
       message: "Books fetched successfully",
-      data: {books, totalPage : Math.ceil(totalPage)},
+      data: { books, totalPage: Math.ceil(totalPage) },
     });
   } catch (error: any) {
     res.status(500).json({
@@ -41,9 +41,26 @@ export const AllBooks = async (req: Request, res: Response) => {
   }
 };
 
+export const getSingleBook = async (req: Request, res: Response) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    res.status(200).json({
+      success: true,
+      message: "Book fetched successfully",
+      data: book,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch book",
+      error: error.message,
+    });
+  }
+};
+
 export const updateBook = async (req: Request, res: Response) => {
   try {
-     const book = await Book.findByIdAndUpdate(req.params.bookId, req.body, {
+    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
     });
     res.status(200).json({
@@ -59,7 +76,6 @@ export const updateBook = async (req: Request, res: Response) => {
     });
   }
 };
-
 
 export const deleteBook = async (req: Request, res: Response) => {
   try {
