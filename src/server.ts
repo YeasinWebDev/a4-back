@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import { bookRoute } from "./modules/book/book.routes";
+import { borrowRoute } from "./modules/borrow/borrow.routes";
 dotenv.config();
 
 
@@ -13,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(bookRoute)
+app.use(borrowRoute)
 
 app.get("/", (req, res) => {
   res.status(200).send("pong");
