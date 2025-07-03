@@ -3,8 +3,7 @@ import { Book } from "./book.Model";
 
 export const CreateBook = async (req: Request, res: Response) => {
   try {
-    const { title, author, genre, isbn, available } = req.body;
-    const book = new Book({ title, author, genre, isbn, available });
+    const book = new Book(req.body);
     await book.save();
     res.status(201).json({
       success: true,
@@ -60,9 +59,18 @@ export const getSingleBook = async (req: Request, res: Response) => {
 
 export const updateBook = async (req: Request, res: Response) => {
   try {
-    const book = await Book.findByIdAndUpdate(req.params.id, req.body, {
+    const { _id, ...updateData } = req.body;
+    const book = await Book.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
     });
+    console.log("data", book);
+
+    if(book?.copies === 0){
+      Book.updateAvailable(req.params.id, false)
+    }else{
+      Book.updateAvailable(req.params.id, true)
+    }
+
     res.status(200).json({
       success: true,
       message: "Book updated successfully",
