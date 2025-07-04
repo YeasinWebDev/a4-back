@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { Book } from "./book.Model";
+import { Borrow } from "../borrow/borrow.Model";
 
 export const CreateBook = async (req: Request, res: Response) => {
   try {
@@ -88,6 +89,7 @@ export const updateBook = async (req: Request, res: Response) => {
 export const deleteBook = async (req: Request, res: Response) => {
   try {
     const book = await Book.findByIdAndDelete(req.params.bookId);
+    await Borrow.deleteMany({ bookId: req.params.bookId });
     res.status(200).json({
       success: true,
       message: "Book deleted successfully",
