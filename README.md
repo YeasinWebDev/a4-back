@@ -1,4 +1,4 @@
-# 📚 Minimal Library Management System - [Backend].(https://a4-back.vercel.app/) | [Frontend](https://a4-front-teal.vercel.app)
+# 📚 Minimal Library Management System - [Backend](https://a4-back.vercel.app) | [Frontend](https://a4-front-teal.vercel.app)
 
 This is the **backend** for the Minimal Library Management System built using **Node.js**, **Express**, **TypeScript**, and **MongoDB**. It provides a clean and simple RESTful API for managing books and borrow operations — without authentication, filters, or payment integration.
 
